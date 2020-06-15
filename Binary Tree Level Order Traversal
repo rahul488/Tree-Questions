@@ -1,0 +1,81 @@
+/*
+
+Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its level order traversal as:
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+
+*/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        
+        List<List<Integer>> res=new ArrayList<>();
+        
+        if(root ==  null)
+            return res;
+       int height=findHeight(root);
+        HashMap<Integer,List<Integer>>hs=new LinkedHashMap<>();
+        for(int i=0;i<height;i++)
+        {
+            printTree(root,i,i,hs);
+        }
+        for(List<Integer> list:hs.values())
+            res.add(list);
+        return res;
+    }
+    public void printTree(TreeNode root,int i,int track, HashMap<Integer,List<Integer>>hs)
+    {
+        if(root == null)
+            return;
+        if(i == 0)
+        {
+            if(!hs.containsKey(track))
+            {
+                List<Integer> list=new ArrayList<>();
+                hs.put(track,list);
+            }
+                List<Integer> list=hs.get(track);
+                list.add(root.val);
+        }
+        printTree(root.left,i-1,track,hs);
+        printTree(root.right,i-1,track,hs);
+    }
+    public  int findHeight(TreeNode root)
+    {
+        if(root == null)
+        {
+            return 0;
+        }
+        int left=findHeight(root.left);
+        int right=findHeight(root.right);
+        
+        return (left > right)?left+1:right+1;
+    }
+}
