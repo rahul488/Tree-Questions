@@ -1,0 +1,72 @@
+/*
+
+Given preorder and inorder traversal of a tree, construct the binary tree.
+
+Note:
+You may assume that duplicates do not exist in the tree.
+
+For example, given
+
+preorder = [3,9,20,15,7]
+inorder = [9,3,15,20,7]
+Return the following binary tree:
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+   
+*/
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        
+        int pFirst=0;
+        int pEnd=preorder.length-1;
+        
+        int inFirst=0;
+        int inEnd=inorder.length-1;
+        
+        return helper(preorder,inorder,pFirst,pEnd,inFirst,inEnd);
+    }
+    public TreeNode helper(int [] preorder,int [] inorder,int preFirst,int preEnd,int inFirst,int inEnd)
+    {
+        if(preFirst > preEnd || inFirst > inEnd)
+            return null;
+        int rootval=preorder[preFirst];
+        
+        TreeNode root=new TreeNode(rootval);
+        
+        int track=0;
+        
+        for(int i=0;i<inorder.length;i++)
+        {
+            if(inorder[i] == rootval)
+            {
+                track=i;
+                break;
+            }
+        }
+        root.left=helper(preorder,inorder,preFirst+1,preFirst+1-inFirst+track-1,inFirst,track-1);
+        root.right=helper(preorder,inorder,preFirst+1-inFirst+track,preEnd,track+1,inEnd);
+        
+        return root;
+    }
+}
