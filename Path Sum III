@@ -49,12 +49,12 @@ class Solution {
      
         if(root == null)
             return 0;
-       Bfs(root,0,sum);
+       Dfs(root,0,sum);
        pathSum(root.left,sum);
        pathSum(root.right,sum);
         return count;
     }
-    public void Bfs(TreeNode root,int curr,int sum)
+    public void Dfs(TreeNode root,int curr,int sum)
     {
         if(root == null)
             return;
@@ -63,7 +63,7 @@ class Solution {
         {
             count++;
         }
-        Bfs(root.left,curr,sum);
-        Bfs(root.right,curr,sum);
+        Dfs(root.left,curr,sum);
+        Dfs(root.right,curr,sum);
     }
 }
